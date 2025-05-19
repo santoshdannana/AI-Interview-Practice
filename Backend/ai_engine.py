@@ -34,12 +34,8 @@ Guidelines:
 - Start with a welcome and ask the candidate to introduce themselves.
 - Use realistic, human-like, spoken tone.
 - Each question should take no more than 20 seconds to speak aloud.
-- Categories to include based on focus area:
-  - resume/experience-based questions
-  - technical questions related to the job
-  - behavioral questions (e.g., teamwork, leadership)
-  - situational/problem-solving questions
-  - general or mixed-topic interview questions
+- Categories to include based on focus area: {focus_area}
+- First Question should be to ask about introduction
 - DO NOT label the categories.
 - DO NOT use bullet points or numbers.
 - DO NOT wrap in markdown.

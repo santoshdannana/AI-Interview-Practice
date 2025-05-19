@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import HeaderControls from './HeaderControls';
+import './InterviewSession.css'; // Add CSS below
 
 const InterviewSession = ({ questions }) => {
   const [index, setIndex] = useState(0);
@@ -29,7 +30,7 @@ const InterviewSession = ({ questions }) => {
   }, [camOn]);
 
   useEffect(() => {
-    speechSynthesis.getVoices(); // ensure voices are loaded
+    speechSynthesis.getVoices();
   }, []);
 
   const getHindiVoice = () => {
@@ -76,10 +77,7 @@ const InterviewSession = ({ questions }) => {
         silenceTimer = setInterval(() => {
           silenceSeconds++;
           setSilenceSeconds(silenceSeconds);
-          if (silenceSeconds >= 10) {
-            console.warn("🛑 Detected 10s of silence. Stopping...");
-            recognition.stop();
-          }
+          if (silenceSeconds >= 10) recognition.stop();
         }, 1000);
       };
 
@@ -93,18 +91,12 @@ const InterviewSession = ({ questions }) => {
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           const result = event.results[i];
           const transcript = result[0].transcript;
-
           if (transcript.trim()) {
             spoken = true;
-            if (result.isFinal) {
-              fullTranscript += transcript + ' ';
-            }
+            if (result.isFinal) fullTranscript += transcript + ' ';
           }
         }
-
-        if (spoken) {
-          resetSilenceTimer();
-        }
+        if (spoken) resetSilenceTimer();
       };
 
       recognition.onerror = (err) => {
@@ -142,7 +134,6 @@ const InterviewSession = ({ questions }) => {
 
   useEffect(() => {
     if (!currentQuestion) return;
-
     const runStep = async () => {
       try {
         setAnswer('');
@@ -162,71 +153,78 @@ const InterviewSession = ({ questions }) => {
         setFeedback("Something went wrong.");
       }
     };
-
     runStep();
   }, [index, currentQuestion, speakText, speakFeedbackAndContinue, getAIResponse]);
 
   return (
-    <div className="min-h-screen bg-base-100 flex flex-col">
-      <HeaderControls
-        micOn={micOn}
-        camOn={camOn}
-        toggleMic={() => setMicOn(m => !m)}
-        toggleCam={() => setCamOn(c => !c)}
-        onEndCall={() => window.location.reload()}
-      />
+    <div className="interview-wrapper">
+      <header className="interview-header">
+        <h1 className="interview-title">🎙️ Mock Interview</h1>
+        <HeaderControls
+          micOn={micOn}
+          camOn={camOn}
+          toggleMic={() => setMicOn(m => !m)}
+          toggleCam={() => setCamOn(c => !c)}
+          onEndCall={() => window.location.reload()}
+        />
+      </header>
 
-      <div className="flex flex-1 flex-col md:flex-row">
-        <div className="md:w-1/2 p-6 flex items-center justify-center border-r border-base-300">
-          <div className="card w-full shadow-xl aspect-square bg-base-200">
-            <div className="card-body items-center text-center">
-              <h2 className="card-title text-primary">🎥 Live Camera</h2>
-              <video
-                ref={videoRef}
-                autoPlay
-                muted={!micOn}
-                playsInline
-                className="rounded-xl w-full h-full object-cover border border-base-300"
-              />
+      <main className="interview-body">
+        <section className="video-section">
+          <div className="video-card">
+            <div className="video-display">
+              {camOn ? (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted={!micOn}
+                  playsInline
+                  className="video-feed"
+                />
+              ) : (
+                <div className="video-placeholder">
+                  <span className="camera-off-icon">🚫</span>
+                  <p>Camera is turned off</p>
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="md:w-1/2 p-8 space-y-6">
-          {currentQuestion ? (
-            <>
-              <div>
-                <h2 className="text-2xl font-bold text-neutral-content">Question {index + 1}</h2>
-                <p className="text-lg mt-2">{currentQuestion}</p>
-              </div>
+        <section className="question-section">
+          <div className="question-scrollable">
+            <div className="question-header">
+              <h2>Question {index + 1}</h2>
+              <p className="question-text">{currentQuestion}</p>
+            </div>
 
+            <div className="question-scrollable">
               {isListening && (
-                <p className="text-success font-semibold">
-                  🎤 Listening... (Silent for {silenceSeconds}s)
-                </p>
+                <p className="listening">🎤 Listening... (Silent for {silenceSeconds}s)</p>
               )}
 
               {answer && (
-                <div className="card bg-info bg-opacity-10 text-info-content p-4">
-                  <h3 className="font-bold mb-2">Your Answer</h3>
+                <div className="answer-box">
+                  <strong>Your Answer</strong>
                   <p>{answer}</p>
                 </div>
               )}
 
               {feedback && (
-                <div className="card bg-warning bg-opacity-10 text-warning-content p-4">
-                  <h3 className="font-bold mb-2">AI Feedback</h3>
+                <div className="feedback-box">
+                  <strong>AI Feedback</strong>
                   <p>{feedback}</p>
                 </div>
               )}
-            </>
-          ) : (
-            <div className="text-center mt-10">
-              <h2 className="text-3xl font-bold text-success">🎉 Interview Complete!</h2>
+
+              {!currentQuestion && (
+                <div className="complete">🎉 Interview Complete!</div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </section>
+
+      </main>
     </div>
   );
 };

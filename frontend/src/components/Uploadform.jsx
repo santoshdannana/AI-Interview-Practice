@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './Uploadform.css';
 
 const UploadForm = ({ onQuestions }) => {
   const [resumeFile, setResumeFile] = useState(null);
@@ -7,9 +8,13 @@ const UploadForm = ({ onQuestions }) => {
   const [focusArea, setFocusArea] = useState("Mixed");
   const [difficulty, setDifficulty] = useState("Moderate");
   const [duration, setDuration] = useState("30 mins");
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // ⏳ Start loading
+
     const formData = new FormData();
     formData.append("resume", resumeFile);
     formData.append("job_description", jdFile);
@@ -24,94 +29,91 @@ const UploadForm = ({ onQuestions }) => {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error("Upload failed.");
-      }
-
+      if (!response.ok) throw new Error("Upload failed.");
       const data = await response.json();
       onQuestions(data.questions);
     } catch (err) {
       console.error("Upload error:", err);
+    } finally {
+      setLoading(false); 
     }
   };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="card bg-base-100 shadow-xl p-6 space-y-5 mx-auto w-full max-w-md"
-    >
-      <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-        <span className="text-purple-500">📄</span> Upload Interview Inputs
-      </h2>
 
-      <div className="form-control">
-        <label className="label font-medium">Company Name</label>
+  return (
+    <form onSubmit={handleSubmit} className="form-clean">
+      <h2 className="form-title">Upload Interview Inputs</h2>
+
+      <div className="form-group">
+        <label>Company Name</label>
         <input
           type="text"
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
-          className="input input-bordered w-full"
+          className="form-input"
           required
         />
       </div>
 
-      <div className="form-control">
-        <label className="label font-medium">Resume (PDF or Word)</label>
+      <div className="form-group">
+        <label>Resume (PDF or Word)</label>
         <input
           type="file"
           accept=".pdf,.docx"
           onChange={(e) => setResumeFile(e.target.files[0])}
-          className="file-input file-input-bordered w-full"
+          className="form-input"
           required
         />
       </div>
 
-      <div className="form-control">
-        <label className="label font-medium">Job Description (PDF or Word)</label>
+      <div className="form-group">
+        <label>Job Description (PDF or Word)</label>
         <input
           type="file"
           accept=".pdf,.docx"
           onChange={(e) => setJdFile(e.target.files[0])}
-          className="file-input file-input-bordered w-full"
+          className="form-input"
           required
         />
       </div>
 
-      <div className="form-control">
-        <label className="label font-medium">Focus Area</label>
-        <select
-          value={focusArea}
-          onChange={(e) => setFocusArea(e.target.value)}
-          className="select select-bordered w-full"
-        >
-          <option value="More on Resume">Resume-based</option>
-          <option value="More on Job description">Job Description based</option>
-          <option value="Behavioral">Behavioral</option>
-          <option value="Technical">Technical</option>
-          <option value="Managerial">Managerial</option>
-          <option value="Mixed">Mixed</option>
-        </select>
+      <div className="form-row">
+        <div className="form-group">
+          <label>Focus Area</label>
+          <select
+            value={focusArea}
+            onChange={(e) => setFocusArea(e.target.value)}
+            className="form-select"
+          >
+            <option value="More on Resume">Resume-based</option>
+            <option value="More on Job description">Job Description based</option>
+            <option value="Behavioral">Behavioral</option>
+            <option value="Technical">Technical</option>
+            <option value="Managerial">Managerial</option>
+            <option value="Mixed">Mixed</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Difficulty</label>
+          <select
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            className="form-select"
+          >
+            <option value="Easy">Easy</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Challenging">Challenging</option>
+          </select>
+        </div>
       </div>
 
-      <div className="form-control">
-        <label className="label font-medium">Difficulty</label>
-        <select
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-          className="select select-bordered w-full"
-        >
-          <option value="Easy">Easy</option>
-          <option value="Moderate">Moderate</option>
-          <option value="Challenging">Challenging</option>
-        </select>
-      </div>
-
-      <div className="form-control">
-        <label className="label font-medium">Interview Duration</label>
+      <div className="form-group">
+        <label>Interview Duration</label>
         <select
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
-          className="select select-bordered w-full"
+          className="form-select"
         >
           <option value="30 mins">30 mins</option>
           <option value="1 hour">1 hour</option>
@@ -119,9 +121,14 @@ const UploadForm = ({ onQuestions }) => {
         </select>
       </div>
 
-      <button className="btn btn-primary btn-block text-white font-semibold text-lg shadow-md transition hover:scale-105 hover:brightness-110 duration-200">
-        🚀 Start Interview
-      </button>
+      <button className="form-button" disabled={loading}>
+      {loading ? (
+        <span className="spinner"></span>
+      ) : (
+        "Start Interview"
+      )}
+    </button>
+
     </form>
 
   );

@@ -1,0 +1,186 @@
+/* === Main Layout Wrapper === */
+.interview-wrapper {
+  background: #eaf3fb;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent entire app from scrolling */
+}
+
+/* === Header (Top Bar) === */
+.interview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8fafc;
+  border: 1px solid #8e8aa1;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.interview-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* === Main Body Area === */
+.interview-body {
+  flex: 1;
+  display: flex;
+  padding-top: 1rem;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+/* === Panel Columns === */
+.video-section,
+.question-section {
+  flex: 1 1 50%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* === Video Card === */
+
+
+.video-display {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* === Placeholder when camera is off === */
+.video-placeholder {
+  width: 640px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  background-color: #686b6b;
+}
+
+.camera-off-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* === Question Section Card === */
+.question-section {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  max-height: 480px;
+  border: 1px solid #8e8aa1;
+}
+
+/* === Static Title/Question Block === */
+.question-header {
+  flex-shrink: 0;
+}
+
+.question-text {
+  font-size: 1.1rem;
+  margin: 1rem 0;
+  color: #333;
+}
+
+/* === Scrollable Content Block === */
+.question-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-right: 0.5rem;
+}
+
+/* === Custom Scrollbar === */
+.question-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.question-scrollable::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* === Listening Indicator === */
+.listening {
+  font-weight: 500;
+  color: #2b7a78;
+}
+
+/* === Answer & Feedback Cards === */
+.answer-box,
+.feedback-box {
+  background: #f3f4f6;
+  border-left: 4px solid #2563eb;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* === Completion Message === */
+.complete {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+/* Constrain width so layout doesn't stretch too much on big screens */
+.interview-body {
+  flex: 1;
+  display: flex;
+  
+  gap: 2rem;
+  overflow: hidden;
+  max-width: 1000px;      
+  margin: 0 auto;          
+}
+
+
+@media (max-width: 650px) {
+  .interview-body {
+    
+    gap: 1rem;
+  }
+
+  .interview-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .interview-title {
+    font-size: 1.2rem;
+  }
+}
+
+
