@@ -24,7 +24,7 @@ const UploadForm = ({ onQuestions }) => {
     formData.append("duration", duration);
 
     try {
-      const response = await fetch("https://your-api-url.onrender.com/upload/", {
+      const response = await fetch("https://ai-interview-backend-40n7.onrender.com/upload/", {
         method: "POST",
         body: formData,
       });
@@ -39,7 +39,7 @@ const UploadForm = ({ onQuestions }) => {
   };
   if (loading) {
     return (
-      <div className="loader">
+      <div className="spotify-loader">
         <div className="bars">
           <div className="bar"></div>
           <div className="bar"></div>
