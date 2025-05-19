@@ -4,7 +4,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Prevent entire app from scrolling */
+  overflow: hidden;
 }
 
 /* === Header (Top Bar) === */
@@ -32,6 +32,8 @@
   padding-top: 1rem;
   gap: 2rem;
   overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 /* === Panel Columns === */
@@ -44,9 +46,7 @@
   overflow: hidden;
 }
 
-/* === Video Card === */
-
-
+/* === Video Display === */
 .video-display {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -68,8 +68,9 @@
 
 /* === Placeholder when camera is off === */
 .video-placeholder {
-  width: 640px;
-  height: 480px;
+  width: 100%;
+  height: auto;
+  min-height: 240px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,7 +88,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* === Question Section Card === */
+/* === Question Section === */
 .question-section {
   background: #ffffff;
   border-radius: 10px;
@@ -103,7 +104,7 @@
   border: 1px solid #8e8aa1;
 }
 
-/* === Static Title/Question Block === */
+/* === Question Header === */
 .question-header {
   flex-shrink: 0;
 }
@@ -114,7 +115,7 @@
   color: #333;
 }
 
-/* === Scrollable Content Block === */
+/* === Scrollable Question Area === */
 .question-scrollable {
   flex: 1;
   overflow-y: auto;
@@ -122,7 +123,6 @@
   padding-right: 0.5rem;
 }
 
-/* === Custom Scrollbar === */
 .question-scrollable::-webkit-scrollbar {
   width: 6px;
 }
@@ -138,7 +138,7 @@
   color: #2b7a78;
 }
 
-/* === Answer & Feedback Cards === */
+/* === Answer & Feedback Boxes === */
 .answer-box,
 .feedback-box {
   background: #f3f4f6;
@@ -155,17 +155,7 @@
   color: #2e7d32;
 }
 
-/* Constrain width so layout doesn't stretch too much on big screens */
-.interview-body {
-  flex: 1;
-  display: flex;
-  
-  gap: 2rem;
-  overflow: hidden;
-  max-width: 1000px;      
-  margin: 0 auto;          
-}
-
+/* === Finish Button === */
 .finish-button {
   margin-top: 1rem;
   padding: 0.6rem 1rem;
@@ -182,20 +172,59 @@
   background-color: #155ab6;
 }
 
+/* === Responsive Layout === */
 @media (max-width: 650px) {
   .interview-body {
-    
+    flex-direction: column;
+    padding: 1rem;
     gap: 1rem;
+    max-width: 100%;
   }
 
   .interview-header {
     flex-direction: column;
     gap: 0.5rem;
+    text-align: center;
   }
 
   .interview-title {
     font-size: 1.2rem;
   }
+
+  .video-section,
+  .question-section {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .video-display {
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-placeholder {
+    min-height: 200px;
+  }
+
+  .question-section {
+    padding: 1rem;
+    max-height: none;
+  }
+
+  .question-text {
+    font-size: 1rem;
+  }
+
+  .answer-box,
+  .feedback-box {
+    font-size: 0.95rem;
+  }
+  .video-section {
+    flex: unset;
+    height: auto;
+  }
+
+  .video-display {
+    aspect-ratio: 16 / 9;
+    max-height: 300px;
+  }
 }
-
-

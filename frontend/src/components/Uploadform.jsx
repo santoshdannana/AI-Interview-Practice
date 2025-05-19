@@ -175,7 +175,7 @@ const UploadForm = ({ onQuestions, onConfig, onVoiceSelected }) => {
             className="test-voice-button"
             title="Test Voice"
             onClick={() => {
-              const utter = new SpeechSynthesisUtterance("Hello! This is how I sound.");
+              const utter = new SpeechSynthesisUtterance("Hi, Are you ready for the interview?");
               utter.voice = selectedVoice;
               speechSynthesis.speak(utter);
             }}
