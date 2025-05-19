@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/AI-Interview-Practice/static/css/main.1fa9816b.css",
-    "main.js": "/AI-Interview-Practice/static/js/main.7feedf1c.js",
+    "main.js": "/AI-Interview-Practice/static/js/main.c42af4ee.js",
     "static/js/453.8ab44547.chunk.js": "/AI-Interview-Practice/static/js/453.8ab44547.chunk.js",
     "index.html": "/AI-Interview-Practice/index.html",
     "main.1fa9816b.css.map": "/AI-Interview-Practice/static/css/main.1fa9816b.css.map",
-    "main.7feedf1c.js.map": "/AI-Interview-Practice/static/js/main.7feedf1c.js.map",
+    "main.c42af4ee.js.map": "/AI-Interview-Practice/static/js/main.c42af4ee.js.map",
     "453.8ab44547.chunk.js.map": "/AI-Interview-Practice/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1fa9816b.css",
-    "static/js/main.7feedf1c.js"
+    "static/js/main.c42af4ee.js"
   ]
 }
