@@ -9,11 +9,11 @@ const UploadForm = ({ onQuestions }) => {
   const [difficulty, setDifficulty] = useState("Moderate");
   const [duration, setDuration] = useState("30 mins");
   const [loading, setLoading] = useState(false);
-
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // ⏳ Start loading
+    setLoading(true); 
 
     const formData = new FormData();
     formData.append("resume", resumeFile);
@@ -24,20 +24,33 @@ const UploadForm = ({ onQuestions }) => {
     formData.append("duration", duration);
 
     try {
-      const response = await fetch("https://ai-interview-backend-40n7.onrender.com/upload/", {
+      const response = await fetch("https://your-api-url.onrender.com/upload/", {
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) throw new Error("Upload failed.");
       const data = await response.json();
-      onQuestions(data.questions);
+      onQuestions(data.questions); // will trigger switch to InterviewSession
     } catch (err) {
       console.error("Upload error:", err);
-    } finally {
-      setLoading(false); 
+      setLoading(false); // hide loading if failed
     }
   };
+  if (loading) {
+    return (
+      <div className="spotify-loader">
+        <div className="bars">
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
+        <p className="loader-text">Getting your questions ready...</p>
+      </div>
+    );
+  }
 
 
   return (
