@@ -13,6 +13,8 @@ const InterviewSession = ({ questions, selectedVoice }) => {
   const [showFinishButton, setShowFinishButton] = useState(false);
   const videoRef = useRef(null);
   const currentQuestion = questions[index];
+  const recognitionRef = useRef(null);
+
 
   useEffect(() => {
     window.speechSynthesis.cancel();
@@ -57,6 +59,7 @@ const InterviewSession = ({ questions, selectedVoice }) => {
       recognition.lang = 'en-US';
       recognition.interimResults = true;
       recognition.continuous = true;
+      recognitionRef.current = recognition;
 
       let fullTranscript = '';
       let silenceTimer = null;
@@ -115,10 +118,15 @@ const InterviewSession = ({ questions, selectedVoice }) => {
 
   const handleManualFinish = () => {
     window.speechSynthesis.cancel();
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    SpeechRecognition?.abort();
+
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+
     setShowFinishButton(false);
   };
+
 
   const getAIResponse = useCallback(async (question, answer) => {
     try {

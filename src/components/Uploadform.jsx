@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './Uploadform.css';
+import LoadAnimation from "./LoadAnimation";
 
-const UploadForm = ({ onQuestions, onConfig, onVoiceSelected }) => {
+const UploadForm = ({ onQuestions, onVoiceSelected }) => {
   const [resumeFile, setResumeFile] = useState(null);
   const [jdFile, setJdFile] = useState(null);
   const [companyName, setCompanyName] = useState("");
@@ -57,18 +58,20 @@ const UploadForm = ({ onQuestions, onConfig, onVoiceSelected }) => {
 
   if (loading) {
     return (
-      <div className="loader">
-        <div className="bars">
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-        </div>
-        <p className="loader-text">Getting your questions ready...</p>
+      <div style={{
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        backgroundColor: '#eaf3fb'
+      }}>
+        <LoadAnimation />
       </div>
     );
   }
+
 
   return (
     <form onSubmit={handleSubmit} className="form-clean">

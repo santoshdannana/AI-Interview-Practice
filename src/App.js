@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UploadForm from './components/Uploadform';
 import InterviewSession from './components/InterviewSession';
 import './App.css';
+import AppLoadAnimation from './components/AppLoadAnimation';
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -15,18 +16,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="loader">
-        <div className="bars">
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-        </div>
-        <p className="loader-text">Getting things ready...</p>
-      </div>
-    );
+    return <AppLoadAnimation />;
   }
 
   return (
