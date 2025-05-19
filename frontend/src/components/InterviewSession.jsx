@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import HeaderControls from './HeaderControls';
-import './InterviewSession.css'; // Add CSS below
+import './InterviewSession.css'; 
 
 const InterviewSession = ({ questions }) => {
   const [index, setIndex] = useState(0);
@@ -119,7 +119,7 @@ const InterviewSession = ({ questions }) => {
   const getAIResponse = useCallback(async (question, answer) => {
     try {
       const prompt = `You are an AI interviewer. The candidate was asked: "${question}". They answered: "${answer}". Give clear feedback in 1–2 lines.`;
-      const res = await fetch('http://localhost:8000/ai-feedback', {
+      const res = await fetch('https://ai-interview-backend-40n7.onrender.com/ai-feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),

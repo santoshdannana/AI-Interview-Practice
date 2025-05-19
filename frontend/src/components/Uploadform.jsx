@@ -24,7 +24,7 @@ const UploadForm = ({ onQuestions }) => {
     formData.append("duration", duration);
 
     try {
-      const response = await fetch("http://localhost:8000/upload/", {
+      const response = await fetch("https://ai-interview-backend-40n7.onrender.com/upload/", {
         method: "POST",
         body: formData,
       });
