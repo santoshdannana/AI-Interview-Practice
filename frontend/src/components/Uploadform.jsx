@@ -39,7 +39,7 @@ const UploadForm = ({ onQuestions }) => {
   };
   if (loading) {
     return (
-      <div className="spotify-loader">
+      <div className="loader">
         <div className="bars">
           <div className="bar"></div>
           <div className="bar"></div>

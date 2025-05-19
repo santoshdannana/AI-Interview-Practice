@@ -33,15 +33,15 @@ const InterviewSession = ({ questions }) => {
     speechSynthesis.getVoices();
   }, []);
 
-  const getHindiVoice = () => {
+  const getZiraVoice = () => {
     const voices = speechSynthesis.getVoices();
-    return voices.find(v => v.lang === 'hi-IN') || voices[0];
+    return voices.find(voice => voice.name === "Microsoft Zira - English (United States)");
   };
 
   const speakText = useCallback((text) => {
     return new Promise(resolve => {
       const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = getHindiVoice();
+      utter.voice = getZiraVoice();
       utter.onend = () => resolve();
       speechSynthesis.speak(utter);
     });
@@ -50,7 +50,7 @@ const InterviewSession = ({ questions }) => {
   const speakFeedbackAndContinue = useCallback((text) => {
     return new Promise(resolve => {
       const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = getHindiVoice();
+      utter.voice = getZiraVoice();
       utter.onend = () => resolve();
       speechSynthesis.speak(utter);
     });
