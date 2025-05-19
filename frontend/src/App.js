@@ -6,16 +6,16 @@ import './App.css';
 function App() {
   const [questions, setQuestions] = useState([]);
   const [config, setConfig] = useState(null);
+  const [selectedVoice, setSelectedVoice] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Simulate loading animation for 1.5 seconds
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timeout);
   }, []);
 
   if (loading) {
-  return (
+    return (
       <div className="loader">
         <div className="bars">
           <div className="bar"></div>
@@ -29,13 +29,20 @@ function App() {
     );
   }
 
-
   return (
     <div className="app-container fade-in">
       {questions.length === 0 ? (
-        <UploadForm onQuestions={setQuestions} onConfig={setConfig} />
+        <UploadForm
+          onQuestions={setQuestions}
+          onConfig={setConfig}
+          onVoiceSelected={setSelectedVoice} 
+        />
       ) : (
-        <InterviewSession config={config} questions={questions} />
+        <InterviewSession
+          config={config}
+          questions={questions}
+          selectedVoice={selectedVoice} 
+        />
       )}
     </div>
   );

@@ -99,7 +99,7 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
-  max-height: 480px;
+  max-height: 486px;
   border: 1px solid #8e8aa1;
 }
 
@@ -166,6 +166,21 @@
   margin: 0 auto;          
 }
 
+.finish-button {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.finish-button:hover {
+  background-color: #155ab6;
+}
 
 @media (max-width: 650px) {
   .interview-body {

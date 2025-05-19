@@ -153,6 +153,36 @@ body {
 .bar:nth-child(4) { animation-delay: 0.3s; }
 .bar:nth-child(5) { animation-delay: 0.4s; }
 
+
+.voice-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.voice-row .form-select {
+  flex: 1;
+  min-width: 200px;
+}
+
+.test-voice-button {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.test-voice-button:hover {
+  background-color: #155ab6;
+}
+
+
 @keyframes bounceBar {
   0%, 100% {
     height: 12px;

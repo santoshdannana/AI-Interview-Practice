@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Uploadform.css';
 
-const UploadForm = ({ onQuestions }) => {
+const UploadForm = ({ onQuestions, onConfig, onVoiceSelected }) => {
   const [resumeFile, setResumeFile] = useState(null);
   const [jdFile, setJdFile] = useState(null);
   const [companyName, setCompanyName] = useState("");
@@ -9,11 +9,28 @@ const UploadForm = ({ onQuestions }) => {
   const [difficulty, setDifficulty] = useState("Moderate");
   const [duration, setDuration] = useState("30 mins");
   const [loading, setLoading] = useState(false);
-  
+
+  const [availableVoices, setAvailableVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(null);
+
+  // Load voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = speechSynthesis.getVoices();
+      setAvailableVoices(voices);
+      const defaultVoice = voices.find(v => v.name === "Microsoft Zira - English (United States)") || voices[0];
+      setSelectedVoice(defaultVoice);
+    };
+
+    loadVoices();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("resume", resumeFile);
@@ -31,12 +48,13 @@ const UploadForm = ({ onQuestions }) => {
 
       if (!response.ok) throw new Error("Upload failed.");
       const data = await response.json();
-      onQuestions(data.questions); // will trigger switch to InterviewSession
+      onQuestions(data.questions);
     } catch (err) {
       console.error("Upload error:", err);
-      setLoading(false); // hide loading if failed
+      setLoading(false);
     }
   };
+
   if (loading) {
     return (
       <div className="loader">
@@ -51,7 +69,6 @@ const UploadForm = ({ onQuestions }) => {
       </div>
     );
   }
-
 
   return (
     <form onSubmit={handleSubmit} className="form-clean">
@@ -134,16 +151,46 @@ const UploadForm = ({ onQuestions }) => {
         </select>
       </div>
 
+      <div className="form-group">
+        <label>Voice Preference</label>
+        <div className="voice-row">
+          <select
+            className="form-select"
+            value={selectedVoice?.name || ""}
+            onChange={(e) => {
+              const newVoice = availableVoices.find(v => v.name === e.target.value);
+              setSelectedVoice(newVoice);
+              onVoiceSelected(newVoice); // Send to App.js
+            }}
+          >
+            {availableVoices.map((voice, i) => (
+              <option key={i} value={voice.name}>
+                {voice.name} ({voice.lang})
+              </option>
+            ))}
+          </select>
+
+          <button
+            type="button"
+            className="test-voice-button"
+            title="Test Voice"
+            onClick={() => {
+              const utter = new SpeechSynthesisUtterance("Hello! This is how I sound.");
+              utter.voice = selectedVoice;
+              speechSynthesis.speak(utter);
+            }}
+          >
+            🔊
+          </button>
+
+        </div>
+      </div>
+
+
       <button className="form-button" disabled={loading}>
-      {loading ? (
-        <span className="spinner"></span>
-      ) : (
-        "Start Interview"
-      )}
-    </button>
-
+        {loading ? <span className="spinner"></span> : "Start Interview"}
+      </button>
     </form>
-
   );
 };
 

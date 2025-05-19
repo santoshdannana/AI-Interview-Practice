@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import HeaderControls from './HeaderControls';
 import './InterviewSession.css'; 
 
-const InterviewSession = ({ questions }) => {
+const InterviewSession = ({ questions, selectedVoice }) => {
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -10,6 +10,7 @@ const InterviewSession = ({ questions }) => {
   const [silenceSeconds, setSilenceSeconds] = useState(0);
   const [micOn, setMicOn] = useState(true);
   const [camOn, setCamOn] = useState(true);
+  const [showFinishButton, setShowFinishButton] = useState(false);
   const videoRef = useRef(null);
   const currentQuestion = questions[index];
 
@@ -29,32 +30,23 @@ const InterviewSession = ({ questions }) => {
     }
   }, [camOn]);
 
-  useEffect(() => {
-    speechSynthesis.getVoices();
-  }, []);
-
-  const getZiraVoice = () => {
-    const voices = speechSynthesis.getVoices();
-    return voices.find(voice => voice.name === "Microsoft Zira - English (United States)");
-  };
-
   const speakText = useCallback((text) => {
     return new Promise(resolve => {
       const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = getZiraVoice();
+      utter.voice = selectedVoice;
       utter.onend = () => resolve();
       speechSynthesis.speak(utter);
     });
-  }, []);
+  }, [selectedVoice]);
 
   const speakFeedbackAndContinue = useCallback((text) => {
     return new Promise(resolve => {
       const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = getZiraVoice();
+      utter.voice = selectedVoice;
       utter.onend = () => resolve();
       speechSynthesis.speak(utter);
     });
-  }, []);
+  }, [selectedVoice]);
 
   const listenForAnswer = () => {
     return new Promise((resolve, reject) => {
@@ -84,6 +76,10 @@ const InterviewSession = ({ questions }) => {
       recognition.onstart = () => {
         setIsListening(true);
         resetSilenceTimer();
+
+        setTimeout(() => {
+          setShowFinishButton(true);
+        }, 60000);
       };
 
       recognition.onresult = (event) => {
@@ -109,11 +105,19 @@ const InterviewSession = ({ questions }) => {
       recognition.onend = () => {
         clearInterval(silenceTimer);
         setIsListening(false);
+        setShowFinishButton(false);
         resolve(fullTranscript.trim() || "(no response)");
       };
 
       recognition.start();
     });
+  };
+
+  const handleManualFinish = () => {
+    window.speechSynthesis.cancel();
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    SpeechRecognition?.abort();
+    setShowFinishButton(false);
   };
 
   const getAIResponse = useCallback(async (question, answer) => {
@@ -194,7 +198,7 @@ const InterviewSession = ({ questions }) => {
         <section className="question-section">
           <div className="question-scrollable">
             <div className="question-header">
-              <h2>Question {index + 1}</h2>
+              <h2><strong>Question {index + 1}</strong></h2>
               <p className="question-text">{currentQuestion}</p>
             </div>
 
@@ -215,6 +219,16 @@ const InterviewSession = ({ questions }) => {
                   <strong>AI Feedback</strong>
                   <p>{feedback}</p>
                 </div>
+              )}
+
+              {showFinishButton && isListening && (
+                <button
+                  className="finish-button"
+                  onClick={handleManualFinish}
+                  title="Click if you are finished"
+                >
+                  I'm Finished
+                </button>
               )}
 
               {!currentQuestion && (
