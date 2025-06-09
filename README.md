@@ -19,6 +19,14 @@ This project is an interactive **AI-powered mock interview platform**. It allows
 
 ---
 
+## 🔐 Backend Info
+
+The backend is built with **FastAPI**, handles resume/job description parsing, question generation, and answer feedback using **Google Gemini AI**. It is hosted privately on **Render** and communicates via REST APIs with the frontend.
+
+➡️ If you’re reviewing the project and need API access or want to run the full stack locally, feel free to [contact me](mailto:santoshdannana3@gmail.com).
+
+---
+
 ## 🧪 Technologies Used
 
 - **React** (Frontend)
