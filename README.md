@@ -6,6 +6,21 @@ This project is an interactive **AI-powered mock interview platform**. It allows
 
 ---
 
+## 🔐 Backend Info
+
+The backend is built with **FastAPI**, handles resume/job description parsing, question generation, and answer feedback using **Google Gemini AI**. It is hosted privately on **Render** and communicates via REST APIs with the frontend.
+
+➡️ If you’re reviewing the project and need API access or want to run the full stack locally, feel free to [contact me](mailto:santoshdannana3@gmail.com).
+
+---
+🙌 Feedback & Contributions
+Feel free to try the app, and if you have suggestions, ideas for new features, or spot any issues, I’d love to hear from you!
+
+- 📫 Contact me: [santoshdannana3@gmail.com]
+- 💬 Open an issue or feature request right here on GitHub!
+
+---
+
 ## 🚀 Features
 
 - 🎤 **Voice-Based Interview Simulation**
@@ -16,14 +31,6 @@ This project is an interactive **AI-powered mock interview platform**. It allows
 - 📊 Instant **AI feedback** on every answer
 - 📱 Fully responsive (Mobile + Desktop)
 - 🎧 Custom voice selection
-
----
-
-## 🔐 Backend Info
-
-The backend is built with **FastAPI**, handles resume/job description parsing, question generation, and answer feedback using **Google Gemini AI**. It is hosted privately on **Render** and communicates via REST APIs with the frontend.
-
-➡️ If you’re reviewing the project and need API access or want to run the full stack locally, feel free to [contact me](mailto:santoshdannana3@gmail.com).
 
 ---
 
